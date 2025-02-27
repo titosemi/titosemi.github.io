@@ -1,0 +1,53 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Josemi Liébana",
+    "label": "Software Engineering Leader",
+    "image": "/josemi-liebana.jpg",
+    "summary": "Passionate about Software Engineering and Linux",
+    "location": {
+      "city": "Ebersberg",
+      "region": "Germany"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "url": "https://www.linkedin.com/in/josemiliebana/"
+      },
+      {
+        "network": "Github",
+        "url": "https://github.com/titosemi"
+      },
+      {
+        "network": "RSS",
+        "url": "index.xml"
+      }
+    ]
+  },
+  "work": [
+  ],
+  "education": [],
+  "skills": [
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Proficient"
+    },
+    {
+      "language": "German",
+      "fluency": "Fluent"
+    },
+    {
+      "language": "Spanish",
+      "fluency": "Native"
+    }
+  ],
+  "projects": [
+  ],
+  "meta": {
+    "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/master/resume.json",
+    "version": "v1.0.0",
+    "lastModified": "2017-12-24T15:53:00"
+  }
+}
