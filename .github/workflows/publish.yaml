@@ -1,0 +1,100 @@
+name: Deploy Hugo site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+env:
+  UBUNTU_VERSION: 'ubuntu-22.04'
+  NODE_VERISON: '20'
+  HUGO_VERSION: '0.114.2'
+  HUGO_CACHEDIR: /tmp/hugo_cache
+
+jobs:
+  # Build Job
+  build:
+    runs-on: ${{ env.UBUNTU_VERSION }}
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true  
+          fetch-depth: 0    
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VERISON }}"
+
+      - name: Cache Hugo modules
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.HUGO_CACHEDIR }}
+          key: ${{ runner.os }}-hugomod-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-hugomod-
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "${{ env.HUGO_VERSION }}"
+          extended: true  
+
+      - name: Install Hugo Modules
+        run: hugo mod get
+
+      - name: Write composite package.json
+        run: hugo mod npm pack
+
+      - name: Install npm Packages
+        run: npm install
+
+      - name: Build Site
+        run: hugo --minify --environment production
+        
+      - name: Commit Changes
+        id: commit_changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update Hugo npm Dependencies
+          commit_author:
+            GitHub Actions <actions@github.com>
+          skip_dirty_check: true # Only commit if there are Change
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: hugo-site
+          path: ./public
+          retention-days: 1  
+
+  # Deploy Job
+  deploy:
+    needs: build
+    runs-on: ${{ env.UBUNTU_VERSION }}
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      pages: write
+      contents: read
+
+    steps:
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: hugo-site
+          path: ./public
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
