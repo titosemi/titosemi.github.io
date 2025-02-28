@@ -16,7 +16,7 @@ env:
 jobs:
   # Build Job
   build:
-    runs-on: ${{ env.UBUNTU_VERSION }}
+    runs-on: iubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
 
@@ -80,7 +80,7 @@ jobs:
   # Deploy Job
   deploy:
     needs: build
-    runs-on: ${{ env.UBUNTU_VERSION }}
+    runs-on: ubuntu-latest    
     if: github.ref == 'refs/heads/main'
     permissions:
       pages: write
