@@ -10,7 +10,8 @@ on:
 env:
   UBUNTU_VERSION: 'ubuntu-22.04'
   NODE_VERISON: '20'
-  HUGO_VERSION: '0.114.2'
+  #HUGO_VERSION: '0.114.2'
+  HUGO_VERSION: '0.140.1'
   HUGO_CACHEDIR: /tmp/hugo_cache
 
 jobs:
