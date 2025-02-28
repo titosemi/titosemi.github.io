@@ -16,7 +16,7 @@ env:
 jobs:
   # Build Job
   build:
-    runs-on: iubuntu-latest
+    runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
 
