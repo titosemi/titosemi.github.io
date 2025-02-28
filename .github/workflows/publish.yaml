@@ -22,7 +22,7 @@ jobs:
       group: ${{ github.workflow }}-${{ github.ref }}
 
     permissions:
-      contents: read
+      contents: write
 
     steps:
       - name: Checkout Repository
