@@ -62,6 +62,9 @@ jobs:
       - name: Build Site
         run: hugo --minify --environment production
         
+      - name: Check for file changes
+        run: git status && git diff
+        
       - name: Commit Changes
         id: commit_changes
         uses: stefanzweifel/git-auto-commit-action@v5
